@@ -14,7 +14,7 @@ public class SpeedAndPositionAssessmentTest {
     private SpeedAndPositionAssessment testee = new SpeedAndPositionAssessment();
 
     @Test
-    public void should_adjust_position_and_speed(){
+    public void should_adjust_position_and_speed() {
         RacingTeam racingTeam = new RacingTeam(1);
         List<RacingTeam> racingTeams = ImmutableList.of(racingTeam);
         testee.runAssessment(racingTeams, null, 2);
@@ -26,7 +26,7 @@ public class SpeedAndPositionAssessmentTest {
     }
 
     @Test
-    public void should_speed_and_position_accordingly_near_max_speed(){
+    public void should_speed_and_position_accordingly_near_max_speed() {
         RacingTeam racingTeam = new RacingTeam(1);
         float startSpeed = racingTeam.getMaxSpeedMetersPerSecond() - 1f;
         float acceleration = racingTeam.getAccelerationMetersPerSecondSquare();
@@ -37,7 +37,7 @@ public class SpeedAndPositionAssessmentTest {
         testee.runAssessment(racingTeams, null, time);
 
         assertThat(racingTeam.getCurrentSpeedMetersPerSecond(), is(racingTeam.getMaxSpeedMetersPerSecond()));
-        assertTrue(racingTeam.getCurrentPosition()<startSpeed*time + acceleration*time*time/2f);
+        assertTrue(racingTeam.getCurrentPosition() < startSpeed * time + acceleration * time * time / 2f);
     }
 
 }

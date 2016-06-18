@@ -12,13 +12,14 @@ public class HandlerAssessment implements Assessment {
 
     private final float handlingDistance;
 
-    public HandlerAssessment(float handlingDistance){
+    public HandlerAssessment(float handlingDistance) {
         this.handlingDistance = handlingDistance;
     }
+
     public void runAssessment(List<RacingTeam> racingTeams, List<FinishingStats> finishedTeams, float currentTime) {
-        if(racingTeams.size()<2){
+        if (racingTeams.size() < 2) {
             return;
-        } else if (racingTeams.size()==2 && locatedCloseEnoughToHandle(racingTeams, 0, 1)){
+        } else if (racingTeams.size() == 2 && locatedCloseEnoughToHandle(racingTeams, 0, 1)) {
             racingTeams.get(0).useHandle();
             racingTeams.get(1).useHandle();
             return;
@@ -44,7 +45,7 @@ public class HandlerAssessment implements Assessment {
         }
     }
 
-    private boolean locatedCloseEnoughToHandle(List<RacingTeam> racingTeams, int firstTeamIndex, int secondTeamIndex){
-        return Math.abs(racingTeams.get(firstTeamIndex).getCurrentPosition()-racingTeams.get(secondTeamIndex).getCurrentPosition())<=handlingDistance;
+    private boolean locatedCloseEnoughToHandle(List<RacingTeam> racingTeams, int firstTeamIndex, int secondTeamIndex) {
+        return Math.abs(racingTeams.get(firstTeamIndex).getCurrentPosition() - racingTeams.get(secondTeamIndex).getCurrentPosition()) <= handlingDistance;
     }
 }

@@ -19,7 +19,6 @@ public class FormulaOneMain {
     private final static Options options;
 
 
-
     static {
         Option numberOfTeamOption = new Option(NUMBER_OF_TEAM_OPTION, true, "Number of participating teams");
         numberOfTeamOption.setRequired(true);
@@ -44,7 +43,7 @@ public class FormulaOneMain {
         printResults(finishingStatsList);
     }
 
-    private static List<Assessment> getListOfAllRequiredAssessments(float trackLengthMeters){
+    private static List<Assessment> getListOfAllRequiredAssessments(float trackLengthMeters) {
         return ImmutableList.<Assessment>of(
                 new SpeedAndPositionAssessment(),
                 new FinishingAssessment(trackLengthMeters),
@@ -54,7 +53,7 @@ public class FormulaOneMain {
     }
 
     private static void printResults(List<FinishingStats> finishingStatsList) {
-        for(int i = 0; i<finishingStatsList.size(); i++){
+        for (int i = 0; i < finishingStatsList.size(); i++) {
             FinishingStats current = finishingStatsList.get(i);
             System.out.printf("Team #%d finished %f seconds after starts with speed %f \n", current.getTeamId(), current.getTime(), current.getSpeed());
         }

@@ -17,7 +17,7 @@ public class LastPositionAssessmentTest {
     private LastPositionAssessment testee = new LastPositionAssessment();
 
     @Test
-    public void should_use_nitro_for_all_last(){
+    public void should_use_nitro_for_all_last() {
         float currentSpeed = 1f;
         RacingTeam racingTeam1 = new RacingTeam(1);
         racingTeam1.setCurrentPosition(5);

@@ -16,7 +16,7 @@ public class HandlerAssessmentTest {
     private HandlerAssessment testee = new HandlerAssessment(10f);
 
     @Test
-    public void should_use_handler_in_all_required_teams(){
+    public void should_use_handler_in_all_required_teams() {
         RacingTeam racingTeam1 = new RacingTeam(1);
         racingTeam1.setCurrentPosition(5);
         RacingTeam racingTeam2 = new RacingTeam(2);
@@ -40,7 +40,7 @@ public class HandlerAssessmentTest {
         racingTeams.add(racingTeam6);
 
         float startSpeed = 1f;
-        for(RacingTeam racingTeam:racingTeams){
+        for (RacingTeam racingTeam : racingTeams) {
             racingTeam.setCurrentSpeedMetersPerSecond(startSpeed);
         }
 

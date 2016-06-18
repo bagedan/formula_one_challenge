@@ -58,7 +58,7 @@ FinishingAssesment - checking if anyone crossed the finish line. remove tehm fro
 HandlerAssessmnet - check is any car is close enough to any other car and reduce speed if so.
 LastPositionAssessment - use nitro if last
 
-When list of finished cars contains all teams - process stops and prints all result sorted by finished time. 
+When list of finished cars contains all teams - process stops and prints all result sorted by finished time.
 
 
 Good luck!

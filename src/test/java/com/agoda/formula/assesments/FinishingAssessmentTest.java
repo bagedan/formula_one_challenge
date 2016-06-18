@@ -19,7 +19,7 @@ public class FinishingAssessmentTest {
     private FinishingAssessment testee = new FinishingAssessment(trackLength);
 
     @Test
-    public void should_move_to_finished_list(){
+    public void should_move_to_finished_list() {
         List<RacingTeam> racingTeams = generateRacingTeamsList();
         List<FinishingStats> finishedList = new LinkedList<FinishingStats>();
         float currentTime = 10;

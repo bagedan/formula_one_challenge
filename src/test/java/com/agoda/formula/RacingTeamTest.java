@@ -33,7 +33,7 @@ public class RacingTeamTest {
     @Test
     public void should_not_exceed_max_speed_on_nitro() throws Exception {
         RacingTeam racingTeam = new RacingTeam(1);
-        racingTeam.setCurrentSpeedMetersPerSecond(racingTeam.getMaxSpeedMetersPerSecond()-1);
+        racingTeam.setCurrentSpeedMetersPerSecond(racingTeam.getMaxSpeedMetersPerSecond() - 1);
 
         racingTeam.useNitro();
 

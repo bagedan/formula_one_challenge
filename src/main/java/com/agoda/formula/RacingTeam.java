@@ -15,10 +15,11 @@ public class RacingTeam {
 
     /**
      * This constructor is used to create a team following standard rules - speed is 150 + 10i and acceleration is 2i
+     *
      * @param teamId
      */
     public RacingTeam(int teamId) {
-        this(teamId, kphToMps(150f + 10f*teamId), 2f*teamId, -200f*(teamId-1f));
+        this(teamId, kphToMps(150f + 10f * teamId), 2f * teamId, -200f * (teamId - 1f));
     }
 
     public RacingTeam(int teamId, float maxSpeedMetersPerSecond, float accelerationMetersPerSecondSquare, float startPosition) {
@@ -27,6 +28,10 @@ public class RacingTeam {
         this.accelerationMetersPerSecondSquare = accelerationMetersPerSecondSquare;
         currentPosition = startPosition;
         nitroUsed = false;
+    }
+
+    private static float kphToMps(float speedKmPerHour) {
+        return speedKmPerHour * 1000f / 3600f;
     }
 
     public int getTeamId() {
@@ -49,13 +54,13 @@ public class RacingTeam {
         return currentPosition;
     }
 
-    public float getCurrentSpeedMetersPerSecond() {
-        return currentSpeedMetersPerSecond;
-    }
-
     public RacingTeam setCurrentPosition(float currentPosition) {
         this.currentPosition = currentPosition;
         return this;
+    }
+
+    public float getCurrentSpeedMetersPerSecond() {
+        return currentSpeedMetersPerSecond;
     }
 
     public RacingTeam setCurrentSpeedMetersPerSecond(float currentSpeedMetersPerSecond) {
@@ -63,23 +68,19 @@ public class RacingTeam {
         return this;
     }
 
-    public void useHandle(){
+    public void useHandle() {
         System.out.println("Team " + getTeamId() + " uses handle");
         this.currentSpeedMetersPerSecond = currentSpeedMetersPerSecond * handlingFactor;
     }
 
-    public void useNitro(){
-        if(!nitroUsed){
+    public void useNitro() {
+        if (!nitroUsed) {
             nitroUsed = true;
             System.out.println("Using nitro for team " + getTeamId());
-            currentSpeedMetersPerSecond = Math.min(maxSpeedMetersPerSecond, currentSpeedMetersPerSecond*2);
-        }else{
+            currentSpeedMetersPerSecond = Math.min(maxSpeedMetersPerSecond, currentSpeedMetersPerSecond * 2);
+        } else {
             System.out.println("Nitro used already for team " + getTeamId());
         }
-    }
-
-    private static float kphToMps(float speedKmPerHour) {
-        return speedKmPerHour*1000f/3600f;
     }
 
     @Override

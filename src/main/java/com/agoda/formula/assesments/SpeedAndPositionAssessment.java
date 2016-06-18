@@ -13,7 +13,7 @@ public class SpeedAndPositionAssessment implements Assessment {
     private float lastAssessmentTime = 0;
 
     public void runAssessment(List<RacingTeam> racingTeams, List<FinishingStats> finishedTeams, float currentTime) {
-        for(RacingTeam racingTeam:racingTeams){
+        for (RacingTeam racingTeam : racingTeams) {
             adjustSpeedAndPosition(racingTeam, currentTime - lastAssessmentTime);
         }
         lastAssessmentTime = currentTime;
@@ -24,16 +24,16 @@ public class SpeedAndPositionAssessment implements Assessment {
         float acceleration = racingTeam.getAccelerationMetersPerSecondSquare();
         float maxSpeed = racingTeam.getMaxSpeedMetersPerSecond();
 
-        float timeToMaxSpeed = (maxSpeed - currentSpeed)/acceleration;
-        if(timeToMaxSpeed>timePeriod){
+        float timeToMaxSpeed = (maxSpeed - currentSpeed) / acceleration;
+        if (timeToMaxSpeed > timePeriod) {
             //plain case - car was accelerating all time period
-            float newPosition = racingTeam.getCurrentPosition() + currentSpeed * timePeriod + acceleration*timePeriod*timePeriod/2f;
+            float newPosition = racingTeam.getCurrentPosition() + currentSpeed * timePeriod + acceleration * timePeriod * timePeriod / 2f;
             racingTeam.setCurrentPosition(newPosition);
-            float newSpeed = currentSpeed + acceleration*timePeriod;
+            float newSpeed = currentSpeed + acceleration * timePeriod;
             racingTeam.setCurrentSpeedMetersPerSecond(newSpeed);
-        }else{
+        } else {
             //more tricky case. Car was accelerating for timeToMax and then moved with maxSpeed
-            float newPosition = racingTeam.getCurrentPosition() + currentSpeed * timeToMaxSpeed + acceleration*timeToMaxSpeed*timeToMaxSpeed/2f;
+            float newPosition = racingTeam.getCurrentPosition() + currentSpeed * timeToMaxSpeed + acceleration * timeToMaxSpeed * timeToMaxSpeed / 2f;
             newPosition = newPosition + maxSpeed * (timePeriod - timeToMaxSpeed);
             racingTeam.setCurrentPosition(newPosition);
             racingTeam.setCurrentSpeedMetersPerSecond(maxSpeed);

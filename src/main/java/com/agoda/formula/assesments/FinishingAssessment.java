@@ -17,9 +17,9 @@ public class FinishingAssessment implements Assessment {
     }
 
     public void runAssessment(List<RacingTeam> racingTeams, List<FinishingStats> finishedTeams, float currentTime) {
-        for(int i=0;i<racingTeams.size();i++){
+        for (int i = 0; i < racingTeams.size(); i++) {
             RacingTeam racingTeam = racingTeams.get(i);
-            if(racingTeam.getCurrentPosition()>=trackLengthMeters){
+            if (racingTeam.getCurrentPosition() >= trackLengthMeters) {
                 FinishingStats finishingStats = new FinishingStats(racingTeam.getTeamId(), racingTeam.getCurrentSpeedMetersPerSecond(), currentTime);
                 System.out.println("Racing team[" + racingTeam + "] finshed race");
                 racingTeams.remove(i--);
