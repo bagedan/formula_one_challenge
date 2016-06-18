@@ -63,17 +63,15 @@ public class RacingTeam {
         return this;
     }
 
-    public RacingTeam setNitroUsed(boolean nitroUsed) {
-        this.nitroUsed = nitroUsed;
-        return this;
-    }
-
-    public boolean isNitroUsed() {
-        return nitroUsed;
-    }
-
     public void useHandle(){
         this.currentSpeedMetersPerSecond = currentSpeedMetersPerSecond * handlingFactor;
+    }
+
+    public void useNitro(){
+        if(!nitroUsed){
+            nitroUsed = true;
+            currentSpeedMetersPerSecond = Math.min(maxSpeedMetersPerSecond, currentSpeedMetersPerSecond*2);
+        }
     }
 
     private static float kphToMps(float speedKmPerHour) {
