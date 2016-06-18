@@ -4,7 +4,6 @@ import com.agoda.formula.FinishingStats;
 import com.agoda.formula.RacingTeam;
 
 import java.util.List;
-import java.util.TreeSet;
 
 /**
  * Created by Tkachi on 6/18/2016.
@@ -17,17 +16,27 @@ public class HandlerAssessment implements Assessment {
         this.handlingDistance = handlingDistance;
     }
     public void runAssessment(List<RacingTeam> racingTeams, List<FinishingStats> finishedTeams, float currentTime) {
-        TreeSet<Float> locations = new TreeSet<>();
-        for(RacingTeam racingTeam:racingTeams){
-            locations.add(racingTeam.getCurrentPosition());
+        racingTeams.sort((o1, o2) -> Float.compare(o1.getCurrentPosition(), o2.getCurrentPosition()));
+        //check first team in the list
+        float currentTeamPosition = racingTeams.get(0).getCurrentPosition();
+        if(locatedCloseEnoughToHandle(racingTeams, 0, 1)){
+            racingTeams.get(0).useHandle();
         }
 
-        for(int i=0;i<racingTeams.size();i++){
-            float currentTeamPosition = racingTeams.get(i).getCurrentPosition();
-
-            if(locations.subSet(currentTeamPosition - handlingDistance, true, currentTeamPosition + handlingDistance, true).size()>1){
+        //checking all teams in the middle
+        for(int i=1;i<racingTeams.size()-1;i++){
+            if(locatedCloseEnoughToHandle(racingTeams, i, i-1) || locatedCloseEnoughToHandle(racingTeams, i, i+1)){
                 racingTeams.get(i).useHandle();
             }
         }
+
+        //checking last team in the list
+        if(locatedCloseEnoughToHandle(racingTeams, racingTeams.size()-1, racingTeams.size()-2)){
+            racingTeams.get(racingTeams.size()-1).useHandle();
+        }
+    }
+
+    private boolean locatedCloseEnoughToHandle(List<RacingTeam> racingTeams, int firstTeamIndex, int secondTeamIndex){
+        return Math.abs(racingTeams.get(firstTeamIndex).getCurrentPosition()-racingTeams.get(secondTeamIndex).getCurrentPosition())<=handlingDistance;
     }
 }
