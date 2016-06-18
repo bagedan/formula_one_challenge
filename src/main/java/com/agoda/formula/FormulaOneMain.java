@@ -1,7 +1,6 @@
 package com.agoda.formula;
 
-import com.agoda.formula.assesments.Assessment;
-import com.agoda.formula.assesments.SpeedAndPositionAssessment;
+import com.agoda.formula.assesments.*;
 import com.google.common.collect.ImmutableList;
 import org.apache.commons.cli.*;
 
@@ -14,6 +13,8 @@ public class FormulaOneMain {
 
     private final static String NUMBER_OF_TEAM_OPTION = "n";
     private final static String TRACK_LENGTH_METERS = "lm";
+    private final static float HANDLING_DISTANCE_METERS = 10;
+    private final static float REARRANGE_TIME_WINDOW_SEC = 2;
 
     private final static Options options;
 
@@ -35,24 +36,27 @@ public class FormulaOneMain {
         CommandLineParser commandLineParser = new DefaultParser();
         CommandLine commandLine = commandLineParser.parse(options, args);
         int numberOfTeams = Integer.parseInt(commandLine.getOptionValue(NUMBER_OF_TEAM_OPTION));
-        int trackLengthMeters = Integer.parseInt(commandLine.getOptionValue(TRACK_LENGTH_METERS));
+        float trackLengthMeters = Float.parseFloat(commandLine.getOptionValue(TRACK_LENGTH_METERS));
 
-        RaceResultCalculator raceResultCalculator = new RaceResultCalculatorImpl(numberOfTeams, trackLengthMeters, getListOfAllRequiredAssessments());
+        RaceResultCalculator raceResultCalculator = new RaceResultCalculatorImpl(numberOfTeams, trackLengthMeters, getListOfAllRequiredAssessments(trackLengthMeters), REARRANGE_TIME_WINDOW_SEC);
         List<FinishingStats> finishingStatsList = raceResultCalculator.calculateFinishingStatsForAllCars();
 
         printResults(finishingStatsList);
     }
 
-    private static List<Assessment> getListOfAllRequiredAssessments(){
+    private static List<Assessment> getListOfAllRequiredAssessments(float trackLengthMeters){
         return ImmutableList.<Assessment>of(
-                new SpeedAndPositionAssessment()
+                new SpeedAndPositionAssessment(),
+                new FinishingAssessment(trackLengthMeters),
+                new HandlerAssessment(HANDLING_DISTANCE_METERS),
+                new LastPositionAssessment()
         );
     }
 
     private static void printResults(List<FinishingStats> finishingStatsList) {
         for(int i = 0; i<finishingStatsList.size(); i++){
             FinishingStats current = finishingStatsList.get(i);
-            System.out.printf("Team #%d finished after %d seconds after starts with speed %d", i+1, current.getTime(), current.getSpeed());
+            System.out.printf("Team #%d finished %f seconds after starts with speed %f \n", current.getTeamId(), current.getTime(), current.getSpeed());
         }
     }
 

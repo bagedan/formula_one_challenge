@@ -10,9 +10,9 @@ import java.util.List;
  */
 public class FinishingAssessment implements Assessment {
 
-    private final int trackLengthMeters;
+    private final float trackLengthMeters;
 
-    public FinishingAssessment(int trackLengthMeters) {
+    public FinishingAssessment(float trackLengthMeters) {
         this.trackLengthMeters = trackLengthMeters;
     }
 
@@ -21,6 +21,7 @@ public class FinishingAssessment implements Assessment {
             RacingTeam racingTeam = racingTeams.get(i);
             if(racingTeam.getCurrentPosition()>=trackLengthMeters){
                 FinishingStats finishingStats = new FinishingStats(racingTeam.getTeamId(), racingTeam.getCurrentSpeedMetersPerSecond(), currentTime);
+                System.out.println("Racing team[" + racingTeam + "] finshed race");
                 racingTeams.remove(i--);
                 finishedTeams.add(finishingStats);
             }

@@ -64,17 +64,31 @@ public class RacingTeam {
     }
 
     public void useHandle(){
+        System.out.println("Team " + getTeamId() + " uses handle");
         this.currentSpeedMetersPerSecond = currentSpeedMetersPerSecond * handlingFactor;
     }
 
     public void useNitro(){
         if(!nitroUsed){
             nitroUsed = true;
+            System.out.println("Using nitro for team " + getTeamId());
             currentSpeedMetersPerSecond = Math.min(maxSpeedMetersPerSecond, currentSpeedMetersPerSecond*2);
+        }else{
+            System.out.println("Nitro used already for team " + getTeamId());
         }
     }
 
     private static float kphToMps(float speedKmPerHour) {
         return speedKmPerHour*1000f/3600f;
+    }
+
+    @Override
+    public String toString() {
+        return "RacingTeam{" +
+                "teamId=" + teamId +
+                ", maxSpeedMetersPerSecond=" + maxSpeedMetersPerSecond +
+                ", currentPosition=" + currentPosition +
+                ", currentSpeedMetersPerSecond=" + currentSpeedMetersPerSecond +
+                '}';
     }
 }

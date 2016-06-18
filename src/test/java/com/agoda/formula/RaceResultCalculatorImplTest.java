@@ -1,7 +1,6 @@
 package com.agoda.formula;
 
-import com.agoda.formula.assesments.Assessment;
-import com.agoda.formula.assesments.SpeedAndPositionAssessment;
+import com.agoda.formula.assesments.*;
 import com.google.common.collect.ImmutableList;
 import org.junit.Test;
 
@@ -17,18 +16,19 @@ public class RaceResultCalculatorImplTest {
 
     private final int numberOfTeams = 5;
     private final int trackLength = 100;
+    private final float rearrangeTimeWindow = 2;
 
-    private RaceResultCalculatorImpl raceResultCalculator = new RaceResultCalculatorImpl(numberOfTeams, trackLength, getListOfAllRequiredAssessments());
+    private RaceResultCalculatorImpl testee = new RaceResultCalculatorImpl(numberOfTeams, trackLength, getListOfAllRequiredAssessments(trackLength), rearrangeTimeWindow);
 
     @Test
     public void should_return_result_for_all_teams(){
-        List<FinishingStats> result = raceResultCalculator.calculateFinishingStatsForAllCars();
+        List<FinishingStats> result = testee.calculateFinishingStatsForAllCars();
         assertThat(result.size(), is(numberOfTeams));
     }
 
     @Test
     public void should_init_teams_stats_according_the_rules(){
-        List<RacingTeam> startStats = raceResultCalculator.getRacingTeams();
+        List<RacingTeam> startStats = testee.getRacingTeams();
         for(int i = 1; i<=startStats.size();i++){
             RacingTeam stats = startStats.get(i-1);
             assertThat(stats.getTeamId(), is(i));
@@ -41,24 +41,21 @@ public class RaceResultCalculatorImplTest {
     }
 
     @Test
-    public void should_increase_speed_after_start(){
-        int teamsNumber = 2;
-        int rearrangeTime = 2;
-        RaceResultCalculatorImpl raceResultCalculator = new RaceResultCalculatorImpl(teamsNumber, Integer.MAX_VALUE, getListOfAllRequiredAssessments());
+    public void should_provide_result_for_all_teams(){
+        List<FinishingStats> finishedTeams = testee.calculateFinishingStatsForAllCars();
 
-        raceResultCalculator.rearrangeRacingTeamStats(rearrangeTime);
+        List<RacingTeam> racingTeams = testee.getRacingTeams();
 
-        List<RacingTeam> statsAfterTwoSec = raceResultCalculator.getRacingTeams();
-
-        assertThat(statsAfterTwoSec.size(), is(teamsNumber));
-        assertThat(statsAfterTwoSec.get(0).getCurrentSpeedMetersPerSecond(), is(statsAfterTwoSec.get(0).getAccelerationMetersPerSecondSquare()*rearrangeTime));
-        assertThat(statsAfterTwoSec.get(1).getCurrentSpeedMetersPerSecond(), is(statsAfterTwoSec.get(1).getAccelerationMetersPerSecondSquare()*rearrangeTime));
-
+        assertThat(finishedTeams.size(), is(numberOfTeams));
+        assertThat(racingTeams.size(), is(0));
     }
 
-    private List<Assessment> getListOfAllRequiredAssessments(){
+    private List<Assessment> getListOfAllRequiredAssessments(float trackLength){
         return ImmutableList.<Assessment>of(
-                new SpeedAndPositionAssessment()
+                new SpeedAndPositionAssessment(),
+                new FinishingAssessment(trackLength),
+                new HandlerAssessment(10),
+                new LastPositionAssessment()
         );
     }
 

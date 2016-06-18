@@ -4,6 +4,7 @@ import com.agoda.formula.assesments.Assessment;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -12,16 +13,20 @@ import java.util.List;
 public class RaceResultCalculatorImpl implements RaceResultCalculator {
 
     private final int numberOfTeams;
-    private final int trackLength;
+    private final float trackLength;
+    private final float rearrageTimeFrame;
 
     private List<FinishingStats> results;
     private List<RacingTeam> racingTeams;
 
     private List<Assessment> allAssesments;
 
-    public RaceResultCalculatorImpl(int numberOfTeams, int trackLength, List<Assessment> allAssesments) {
+
+
+    public RaceResultCalculatorImpl(int numberOfTeams, float trackLength, List<Assessment> allAssesments, float rearrageTimeFrame) {
         this.numberOfTeams = numberOfTeams;
         this.trackLength = trackLength;
+        this.rearrageTimeFrame = rearrageTimeFrame;
         racingTeams = new ArrayList<RacingTeam>(numberOfTeams);
         results = new ArrayList<FinishingStats>(numberOfTeams);
         this.allAssesments = allAssesments;
@@ -35,12 +40,19 @@ public class RaceResultCalculatorImpl implements RaceResultCalculator {
     }
 
     public List<FinishingStats> calculateFinishingStatsForAllCars() {
-        return null;
-    }
-
-    void rearrangeRacingTeamStats(int timeFromLastArrangementSeconds){
-
-
+        List<FinishingStats> finishedTeams = new LinkedList<>();
+        float currentTime = 0;
+        while(finishedTeams.size()!=numberOfTeams){
+            currentTime += rearrageTimeFrame;
+            for(Assessment assessment:allAssesments){
+                assessment.runAssessment(racingTeams, finishedTeams, currentTime);
+            }
+            System.out.println("Status on " + currentTime + " second of race: ");
+            for(RacingTeam racingTeam: racingTeams){
+                System.out.println("TeamId " + racingTeam.getTeamId() + " is on " + racingTeam.getCurrentPosition() + " meter and speed is " + racingTeam.getCurrentSpeedMetersPerSecond());
+            }
+        }
+        return finishedTeams;
     }
 
     @VisibleForTesting

@@ -11,6 +11,9 @@ import java.util.List;
 public class LastPositionAssessment implements Assessment {
     @Override
     public void runAssessment(List<RacingTeam> racingTeams, List<FinishingStats> finishedTeams, float currentTime) {
+        if(racingTeams.size() == 0){
+            return;
+        }
         racingTeams.sort((o1, o2) -> Float.compare(o1.getCurrentPosition(), o2.getCurrentPosition()));
         RacingTeam lastTeam = racingTeams.get(0);
         lastTeam.useNitro();
