@@ -37,7 +37,28 @@ All of them start at the same time and try to attain their top speed. A re-asses
 
 Taking the number of teams and length of track as the input, Calculate the final speeds and the corresponding completion times.
 
+Solution comments
+=================
 
+To run application use main class FormulaOneMain and provide required parameters
+-n - number of teams
+-lm - length of track in meters
+
+ex. -n 10 -lm 1000
+
+Every two seconds all racing team are going through chain of specific Assessments in specific order
+
+SpeedAndPositionAssessment - increase speed and calculate new position. Most tricky part here is the case when car ahs reached max speed.
+    As example at t0 car speed is 10 m/s and acceleration 2 m/s. Max speed is 11 m/s. location 0
+    After 2 second it's clear that speed will be 11 m/s bbut what is location? I'm using this approach to calculate it.
+        timeToMaxSpeed = (maxSpeed - startSpeed)/acceleration = 0.5sec
+        location = location + startSpeed*timeToMaxSpeed + acc*timeToMaxSpeed*timeToMaxSpeed/2 + maxSpeed*(2 second - timeToMaxSpeed) = 0 + 10*0.5 + 2*0.5*0.5/2 + 11*1.5 = 21.75
+
+FinishingAssesment - checking if anyone crossed the finish line. remove tehm from list of participants and add to list of finished
+HandlerAssessmnet - check is any car is close enough to any other car and reduce speed if so.
+LastPositionAssessment - use nitro if last
+
+When list of finished cars contains all teams - process stops and prints all result sorted by finished time. 
 
 
 Good luck!
