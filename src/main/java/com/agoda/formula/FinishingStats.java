@@ -5,27 +5,26 @@ package com.agoda.formula;
  */
 public class FinishingStats {
 
-    private float speed;
-    private int time;
+    private final int teamId;
+    private final float speed;
+    private final float time;
 
-    public FinishingStats(float speed, int time) {
+    public FinishingStats(int teamId, float speed, float time) {
+        this.teamId = teamId;
         this.speed = speed;
         this.time = time;
+    }
+
+    public int getTeamId() {
+        return teamId;
     }
 
     public float getSpeed() {
         return speed;
     }
 
-    public void setSpeed(float speed) {
-        this.speed = speed;
-    }
-
-    public int getTime() {
+    public float getTime() {
         return time;
     }
 
-    public void setTime(int time) {
-        this.time = time;
-    }
 }

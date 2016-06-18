@@ -3,25 +3,25 @@ package com.agoda.formula;
 /**
  * Created by Bogdan_Tkach on 6/14/2016.
  */
-public class TeamCurrentStats {
+public class RacingTeam {
     private final int teamId;
     private final float maxSpeedMetersPerSecond;
     private final float accelerationMetersPerSecondSquare;
 
     private final float handlingFactor = 0.8f;
     private float currentPosition;
-    private float currentSpeed;
+    private float currentSpeedMetersPerSecond;
     private boolean nitroUsed;
 
     /**
      * This constructor is used to create a team following standard rules - speed is 150 + 10i and acceleration is 2i
      * @param teamId
      */
-    public TeamCurrentStats(int teamId) {
+    public RacingTeam(int teamId) {
         this(teamId, kphToMps(150f + 10f*teamId), 2f*teamId, -200f*(teamId-1f));
     }
 
-    public TeamCurrentStats(int teamId, float maxSpeedMetersPerSecond, float accelerationMetersPerSecondSquare, float startPosition) {
+    public RacingTeam(int teamId, float maxSpeedMetersPerSecond, float accelerationMetersPerSecondSquare, float startPosition) {
         this.teamId = teamId;
         this.maxSpeedMetersPerSecond = maxSpeedMetersPerSecond;
         this.accelerationMetersPerSecondSquare = accelerationMetersPerSecondSquare;
@@ -49,12 +49,31 @@ public class TeamCurrentStats {
         return currentPosition;
     }
 
-    public float getCurrentSpeed() {
-        return currentSpeed;
+    public float getCurrentSpeedMetersPerSecond() {
+        return currentSpeedMetersPerSecond;
+    }
+
+    public RacingTeam setCurrentPosition(float currentPosition) {
+        this.currentPosition = currentPosition;
+        return this;
+    }
+
+    public RacingTeam setCurrentSpeedMetersPerSecond(float currentSpeedMetersPerSecond) {
+        this.currentSpeedMetersPerSecond = currentSpeedMetersPerSecond;
+        return this;
+    }
+
+    public RacingTeam setNitroUsed(boolean nitroUsed) {
+        this.nitroUsed = nitroUsed;
+        return this;
     }
 
     public boolean isNitroUsed() {
         return nitroUsed;
+    }
+
+    public void useHandle(){
+        this.currentSpeedMetersPerSecond = currentSpeedMetersPerSecond * handlingFactor;
     }
 
     private static float kphToMps(float speedKmPerHour) {

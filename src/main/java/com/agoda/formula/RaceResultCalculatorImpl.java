@@ -1,5 +1,6 @@
 package com.agoda.formula;
 
+import com.agoda.formula.assesments.Assessment;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.util.ArrayList;
@@ -14,19 +15,22 @@ public class RaceResultCalculatorImpl implements RaceResultCalculator {
     private final int trackLength;
 
     private List<FinishingStats> results;
-    private List<TeamCurrentStats> teamCurrentStats;
+    private List<RacingTeam> racingTeams;
 
-    public RaceResultCalculatorImpl(int numberOfTeams, int trackLength) {
+    private List<Assessment> allAssesments;
+
+    public RaceResultCalculatorImpl(int numberOfTeams, int trackLength, List<Assessment> allAssesments) {
         this.numberOfTeams = numberOfTeams;
         this.trackLength = trackLength;
-        teamCurrentStats = new ArrayList<TeamCurrentStats>(numberOfTeams);
+        racingTeams = new ArrayList<RacingTeam>(numberOfTeams);
         results = new ArrayList<FinishingStats>(numberOfTeams);
+        this.allAssesments = allAssesments;
         initTeams();
     }
 
     private void initTeams() {
         for(int i = 1;i<=numberOfTeams;i++){
-            teamCurrentStats.add(new TeamCurrentStats(i));
+            racingTeams.add(new RacingTeam(i));
         }
     }
 
@@ -34,8 +38,19 @@ public class RaceResultCalculatorImpl implements RaceResultCalculator {
         return null;
     }
 
+    void rearrangeRacingTeamStats(int timeFromLastArrangementSeconds){
+
+
+    }
+
     @VisibleForTesting
-    public List<TeamCurrentStats> getTeamCurrentStats() {
-        return teamCurrentStats;
+    public List<RacingTeam> getRacingTeams() {
+        return racingTeams;
+    }
+
+    @VisibleForTesting
+    public RaceResultCalculatorImpl setRacingTeams(List<RacingTeam> racingTeams) {
+        this.racingTeams = racingTeams;
+        return this;
     }
 }

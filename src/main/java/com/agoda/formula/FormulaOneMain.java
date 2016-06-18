@@ -1,5 +1,8 @@
 package com.agoda.formula;
 
+import com.agoda.formula.assesments.Assessment;
+import com.agoda.formula.assesments.SpeedAndPositionAssessment;
+import com.google.common.collect.ImmutableList;
 import org.apache.commons.cli.*;
 
 import java.util.List;
@@ -34,10 +37,16 @@ public class FormulaOneMain {
         int numberOfTeams = Integer.parseInt(commandLine.getOptionValue(NUMBER_OF_TEAM_OPTION));
         int trackLengthMeters = Integer.parseInt(commandLine.getOptionValue(TRACK_LENGTH_METERS));
 
-        RaceResultCalculator raceResultCalculator = new RaceResultCalculatorImpl(numberOfTeams, trackLengthMeters);
+        RaceResultCalculator raceResultCalculator = new RaceResultCalculatorImpl(numberOfTeams, trackLengthMeters, getListOfAllRequiredAssessments());
         List<FinishingStats> finishingStatsList = raceResultCalculator.calculateFinishingStatsForAllCars();
 
         printResults(finishingStatsList);
+    }
+
+    private static List<Assessment> getListOfAllRequiredAssessments(){
+        return ImmutableList.<Assessment>of(
+                new SpeedAndPositionAssessment()
+        );
     }
 
     private static void printResults(List<FinishingStats> finishingStatsList) {
